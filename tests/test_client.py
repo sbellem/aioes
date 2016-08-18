@@ -132,7 +132,7 @@ class TestClient(unittest.TestCase):
                                             timestamp='2009-11-15T14:12:12',
                                             ttl='1d',
                                             consistency='one',
-                                            timeout=30000,
+                                            timeout='30000ms',
                                             refresh=True,
                                             replication='async')
             self.assertEqual(data['_version'], 122)
@@ -291,7 +291,7 @@ class TestClient(unittest.TestCase):
                                                  refresh=True,
                                                  version_type='internal',
                                                  version=2,
-                                                 timeout=30000,
+                                                 timeout='30000ms',
                                                  routing='test',
                                                  parent='1')
             with self.assertRaises(TypeError):
@@ -341,7 +341,7 @@ class TestClient(unittest.TestCase):
                                              timestamp='2009-11-15T14:12:12',
                                              ttl='1d',
                                              consistency='one',
-                                             timeout=30000,
+                                             timeout='30000ms',
                                              refresh=True,
                                              replication='async',
                                              retry_on_conflict=2,
@@ -404,7 +404,7 @@ class TestClient(unittest.TestCase):
                                              default_operator='AND',
                                              analyze_wildcard=True,
                                              version=2,
-                                             timeout=30000,
+                                             timeout='30000ms',
                                              allow_no_indices=True,
                                              ignore_unavailable=True,
                                              df='_all',

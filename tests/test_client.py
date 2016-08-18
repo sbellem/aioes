@@ -1,4 +1,5 @@
 import asyncio
+import os
 import unittest
 from aioes import Elasticsearch
 from aioes.exception import (NotFoundError, ConflictError,
@@ -7,7 +8,7 @@ from aioes.exception import (NotFoundError, ConflictError,
 import pprint
 pp = pprint.pprint
 
-
+ES_HOST = os.environ.get('ES_HOST', 'localhost')
 MESSAGES = [
     {
         "user": "Johny Mnemonic",
@@ -45,7 +46,10 @@ class TestClient(unittest.TestCase):
         self._index = 'test_elasticsearch'
         self.loop = asyncio.new_event_loop()
         asyncio.set_event_loop(None)
-        self.cl = Elasticsearch([{'host': 'localhost'}], loop=self.loop)
+        self.cl = Elasticsearch(
+            [{'host': os.environ.get('ES_HOST', ES_HOST)}],
+            loop=self.loop
+        )
         self.addCleanup(self.cl.close)
         try:
             self.loop.run_until_complete(self.cl.delete(self._index, '', ''))

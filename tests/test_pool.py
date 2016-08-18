@@ -1,4 +1,5 @@
 import asyncio
+import os
 import random
 import time
 import unittest
@@ -6,6 +7,8 @@ import unittest
 from aioes.pool import RandomSelector, RoundRobinSelector, ConnectionPool
 from aioes.transport import Endpoint
 from aioes.connection import Connection
+
+ES_HOST = os.environ.get('ES_HOST', 'localhost')
 
 
 class TestRandomSelector(unittest.TestCase):
@@ -50,7 +53,7 @@ class TestConnectionPool(unittest.TestCase):
 
     def make_pool(self, connections=default):
         if connections is default:
-            connections = [Connection(Endpoint('http', 'localhost', 9200),
+            connections = [Connection(Endpoint('http', ES_HOST, 9200),
                                       loop=self.loop)]
         pool = ConnectionPool(connections, loop=self.loop)
         self.addCleanup(pool.close)
@@ -171,7 +174,7 @@ class TestConnectionPool(unittest.TestCase):
         @asyncio.coroutine
         def go():
             pool = self.make_pool(connections=[])
-            conn = Connection(Endpoint('http', 'localhost', 9200),
+            conn = Connection(Endpoint('http', ES_HOST, 9200),
                               loop=self.loop)
 
             yield from pool.mark_live(conn)
@@ -184,7 +187,7 @@ class TestConnectionPool(unittest.TestCase):
         @asyncio.coroutine
         def go():
             pool = self.make_pool(connections=[])
-            conn = Connection(Endpoint('http', 'localhost', 9200),
+            conn = Connection(Endpoint('http', ES_HOST, 9200),
                               loop=self.loop)
             pool._dead_count[conn] = 1
 

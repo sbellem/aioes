@@ -2,12 +2,13 @@
 
 Calculate difference between public API from `elasticsearch` and `aioes`.
 """
+import os
 
 import elasticsearch
 from elasticsearch.client.utils import NamespacedClient
 import aioes
 
-endpoint = 'localhost:9200'
+endpoint = '{}:9200'.format(os.environ.get('ES_HOST', 'localhost'))
 es_client = elasticsearch.Elasticsearch([endpoint])
 aioes_client = aioes.Elasticsearch([endpoint])
 

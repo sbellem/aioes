@@ -1,7 +1,10 @@
 import asyncio
+import os
 import unittest
 from aioes import Elasticsearch
 from aioes.exception import NotFoundError
+
+ES_HOST = os.environ.get('ES_HOST', 'localhost')
 
 
 class TestNodes(unittest.TestCase):
@@ -10,7 +13,7 @@ class TestNodes(unittest.TestCase):
         self._index = 'elastic_search'
         self.loop = asyncio.new_event_loop()
         asyncio.set_event_loop(None)
-        self.cl = Elasticsearch([{'host': 'localhost'}], loop=self.loop)
+        self.cl = Elasticsearch([{'host': ES_HOST}], loop=self.loop)
         self.addCleanup(self.cl.close)
         try:
             self.loop.run_until_complete(

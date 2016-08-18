@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  aioes:
+    build: .
+    volumes:
+      - .:/usr/src/app/
+    environment:
+      ES_HOST: es
+  es:
+    image: elasticsearch:1.7.0
+    volumes:
+      - ./elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
